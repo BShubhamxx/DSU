@@ -95,3 +95,61 @@ int main() {
 
     return 0;
 }
+
+#include <iostream>
+#include <string>
+#define MAX 100
+using namespace std;
+
+class Stack {
+    char stk[MAX];
+    int top;
+
+public:
+    Stack(){ 
+        top = -1; 
+    }
+
+    bool isEmpty(){ 
+        return top == -1; 
+    }
+    void push(char ch){
+        stk[++top] = ch; 
+    }
+    char pop(){ 
+        return isEmpty() ? '\0' : stk[top--]; 
+    }
+
+    void evaluate(){
+        string exp;
+        Stack s;
+        bool valid = true;
+
+        cout << "Enter a mathematical expression: ";
+        getline(cin, exp);
+
+    for (char ch : exp) {
+        if (ch == '(' || ch == '{' || ch == '[')
+            s.push(ch);
+        else if (ch == ')' || ch == '}' || ch == ']') {
+            char top = s.pop();
+            if ((ch == ')' && top != '(') ||
+                (ch == '}' && top != '{') ||
+                (ch == ']' && top != '[')) {
+                valid = false;
+                break;
+            }
+        }
+    }
+    if (!s.isEmpty()) valid = false;
+    cout << (valid ? "\nExpression is Well Formed!\n"
+                   : "\nExpression is NOT Well Formed!\n");
+    }
+};
+
+int main() {
+    Stack s1;
+    s1.evaluate();
+    return 0;
+}
+
